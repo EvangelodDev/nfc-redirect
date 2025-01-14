@@ -3,41 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Redirect</title>
-    <script>
-        window.onload = function () {
-            // Get query parameters from the URL
-            const queryParams = new URLSearchParams(window.location.search);
-            const username = queryParams.get("username");
+    <title>Redirect to Instagram</title>
+    <script type="text/javascript">
+        // Redirect to Instagram app
+        window.onload = function() {
+            // Instagram URI scheme for Android and iOS
+            var instaUrl = "instagram://user?username=afkad_cl";
+            var fallbackUrl = "https://instagram.com/afkad_cl"; // Web fallback URL
 
-            if (!username) {
-                // If no username is provided, show an error message
-                document.body.innerHTML = "<p>Username not provided. Please specify a username in the URL query string.</p>";
-                return;
-            }
+            // Try to open Instagram app (Android/iOS)
+            window.location.href = instaUrl;
 
-            // Construct the Instagram links
-            const androidIntentUrl = `intent://www.instagram.com/${username}#Intent;scheme=https;package=com.instagram.android;end`;
-            const iosCustomUri = `instagram://user?username=${username}`;
-            const webUrl = `https://www.instagram.com/${username}`;
-
-            // Detect the platform (Android, iOS, or other)
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-            if (/Android/.test(userAgent)) {
-                // Redirect Android users to the Instagram app using an intent URL
-                window.location.href = androidIntentUrl;
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // Redirect iOS users to the Instagram app using the custom URI scheme
-                window.location.href = iosCustomUri;
-            } else {
-                // Fallback: Redirect to the Instagram web profile for other platforms
-                window.location.href = webUrl;
-            }
+            // If the Instagram app is not found, fallback to the web URL after a short delay
+            setTimeout(function() {
+                window.location.href = fallbackUrl;
+            }, 500);
         };
     </script>
 </head>
 <body>
+    <p>If you are not redirected, <a href="https://instagram.com/afkad_cl">click here</a>.</p>
+</body>
+</html>
     <p>Redirecting to Instagram...</p>
 </body>
 </html>
