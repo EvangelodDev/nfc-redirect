@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Redirect</title>
+    <script>
+        window.onload = function () {
+            // Get query parameters from the URL
+            const queryParams = new URLSearchParams(window.location.search);
+            const username = queryParams.get("username");
+
+            if (!username) {
+                // If no username is provided, show an error message
+                document.body.innerHTML = "<p>Username not provided. Please specify a username in the URL query string.</p>";
+                return;
+            }
+
+            // Construct the redirect URLs
+            const intentUrl = `intent://user?username=${username}#Intent;scheme=instagram;package=com.instagram.android;end`;
+            const iosCustomUri = `instagram://user?username=${username}`;
+            const webUrl = `https://www.instagram.com/${username}`;
+
+            // Detect platform and redirect
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/Android/.test(userAgent)) {
+                // Android: Use the intent URL
+                window.location.href = intentUrl;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // iOS: Use the custom URI
+                window.location.href = iosCustomUri;
+            } else {
+                // Fallback: Use the web URL
+                window.location.href = webUrl;
+            }
+        };
+    </script>
+</head>
+<body>
+    <p>Redirecting to Instagram...</p>
+</body>
+</html>
