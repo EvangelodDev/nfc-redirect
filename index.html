@@ -16,22 +16,22 @@
                 return;
             }
 
-            // Construct the redirect URLs
-            const intentUrl = `intent://user?username=${username}#Intent;scheme=instagram;package=com.instagram.android;end`;
+            // Construct the Instagram links
+            const androidIntentUrl = `intent://www.instagram.com/${username}#Intent;scheme=https;package=com.instagram.android;end`;
             const iosCustomUri = `instagram://user?username=${username}`;
             const webUrl = `https://www.instagram.com/${username}`;
 
-            // Detect platform and redirect
+            // Detect the platform (Android, iOS, or other)
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
             if (/Android/.test(userAgent)) {
-                // Android: Use the intent URL
-                window.location.href = intentUrl;
+                // Redirect Android users to the Instagram app using an intent URL
+                window.location.href = androidIntentUrl;
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // iOS: Use the custom URI
+                // Redirect iOS users to the Instagram app using the custom URI scheme
                 window.location.href = iosCustomUri;
             } else {
-                // Fallback: Use the web URL
+                // Fallback: Redirect to the Instagram web profile for other platforms
                 window.location.href = webUrl;
             }
         };
